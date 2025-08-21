@@ -1,19 +1,19 @@
-Perfecto 🚀
-Vamos a desplegar un **Hola Mundo en Rust**, paso a paso. Te muestro primero cómo correrlo **localmente** y luego cómo **deployarlo en web** (con WebAssembly) o como **binario**.
+Perfect 🚀  
+Let's deploy a **Hello World in Rust**, step by step. I'll first show you how to run it **locally**, then how to **deploy it on the web** (using WebAssembly) or as a **binary**.
 
 ---
 
-## 1. Instalar Rust
+## 1. Install Rust
 
-En tu terminal:
+In your terminal:
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-Esto instala `rustc` (compilador) y `cargo` (gestor de proyectos).
+This installs `rustc` (the compiler) and `cargo` (the project manager).
 
-Verifica:
+Verify:
 
 ```bash
 rustc --version
@@ -22,22 +22,22 @@ cargo --version
 
 ---
 
-## 2. Crear un proyecto Hola Mundo
+## 2. Create a Hello World Project
 
 ```bash
-cargo new hola_mundo
-cd hola_mundo
+cargo new hello_world
+cd hello_world
 ```
 
-Esto crea la estructura:
+This creates the structure:
 
 ```
-hola_mundo/
+hello_world/
  ├─ Cargo.toml
  └─ src/main.rs
 ```
 
-En `src/main.rs` ya tendrás:
+In `src/main.rs`, you’ll already have:
 
 ```rust
 fn main() {
@@ -47,60 +47,79 @@ fn main() {
 
 ---
 
-## 3. Ejecutar localmente
+## 3. Run Locally
 
 ```bash
 cargo run
 ```
 
-Salida:
+Output:
 
 ```
-Hola, mundo!
+Hello, world!
 ```
 
 ---
 
-## 4. "Deploy" como binario
+## 4. Deploy as a Binary
 
-Si solo quieres compartirlo como ejecutable:
+To share it as an executable:
 
 ```bash
 cargo build --release
 ```
 
-Te genera el binario en `target/release/hola_mundo` que puedes ejecutar con:
+The binary will be generated at `target/release/hello_world` (or `hello_world.exe` on Windows). Run it with:
 
 ```bash
-.\target\release\a_01_hello_world.exe
+# Linux/macOS
+./target/release/hello_world
+
+# Windows
+.\target\release\hello_world.exe
 ```
 
 ---
 
-## 5. Deploy en la Web (opcional con WebAssembly)
+## 5. Deploy on the Web (Optional with WebAssembly)
 
-Si lo que quieres es que tu "Hola Mundo" corra en un navegador:
+To run your "Hello World" in a browser:
 
-1. Instalar el target wasm:
+1. Install the WebAssembly target:
 
    ```bash
    rustup target add wasm32-unknown-unknown
    ```
 
-2. Compilar:
+2. Compile to WebAssembly:
 
    ```bash
    cargo build --target wasm32-unknown-unknown --release
    ```
 
-3. Te genera un `.wasm` en `target/wasm32-unknown-unknown/release/hola_mundo.wasm`
+3. This generates `hello_world.wasm` in `target/wasm32-unknown-unknown/release/`.
 
-4. Para probarlo en web, usa [wasm-pack](https://rustwasm.github.io/wasm-pack/):
+4. Use [wasm-pack](https://rustwasm.github.io/wasm-pack/) to bundle it for the web:
 
    ```bash
    cargo install wasm-pack
    wasm-pack build --target web
    ```
 
-5. Luego creas un `index.html` que cargue el `.wasm`.
+5. Create an `index.html` to load the `.wasm` file. Example:
 
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <script type="module">
+      import init from './pkg/hello_world.js';
+      init().then(() => {
+        console.log('WASM loaded 🚀');
+      });
+    </script>
+  </body>
+</html>
+```
+
+- Serve the files with a local server (e.g., `python3 -m http.server` or `npm serve`).
