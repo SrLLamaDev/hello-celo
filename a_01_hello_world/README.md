@@ -72,7 +72,7 @@ cargo build --release
 Te genera el binario en `target/release/hola_mundo` que puedes ejecutar con:
 
 ```bash
-.\target\release\a_01_hola_mundo.exe
+.\target\release\a_01_hello_world.exe
 ```
 
 ---
